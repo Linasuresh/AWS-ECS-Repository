@@ -1,0 +1,16 @@
+#Elaborate execution on AWS Management Console
+
+//This is a very fundamental application to ECS project developed to understand how EC2,ECS,Docker and Load Balancers can be incorporated in a given scenario.
+First I created an EC2 instance which will host my application. Created a corresponding security group.
+I then connect to my instance via ssh connection using my key pair using the command-   ssh -i <keyname>.pem ec2-user@public-ip
+Then I installed docker through the command-    curl -fsSL https://get.docker.com -o get-docker.sh,followed by the command,  yum install docker -y.
+After installation,i started docker using the command  systemctl start docker
+Then I created a docker file using the command-  vim <dockerfilename> , where I have data to execute my index.html file.
+Next I created an index.html which will be the front page of my application. 
+Later I built an image on docker using the command-  docker build -t <image-name>
+On the AWS Management Console,I created an Elastic Container Registry repository. 
+Then i pushed my docker image onto the repository through the push commands provided on the ECR repository dashboard.
+I then created an Application Load Balancer for my application under EC2 which will direct traffic to 3 AZs.
+Next i created a task definition on Elastic Container Service dashboard. For this purpose I created an IAM Role that will have ECSTaskExecution access. 
+I then created a container cluster with Fargate infrastructure. This cluster will run tasks using my uploaded docker images with the used of the task definition i created.
+With the help of the ALB,tasks will multiply within the cluster depending on the traffic or load.
